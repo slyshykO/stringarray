@@ -35,7 +35,6 @@ CppApplication{
     Group{
         name:"stringarray"
         files:[
-            "../stringarray/stringarray.cpp",
             "../stringarray/stringarray.hpp",
         ]
     }
