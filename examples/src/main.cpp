@@ -21,5 +21,28 @@ int main()
     printf("%s\n", arr256.data());
     hw.append(arr256).append(arr512);
     printf("%s\n", hw.data());
+    hw = "new value !\n";
+    printf("%s\n", hw.data());
+
+    StringArray<10> eq1, eq2;
+    eq1 = "A";
+    eq2 = eq1;
+    printf("%s == %s ; %i\n", eq1.c_str(),eq2.c_str(), eq1 == eq2);
+    printf("%s != %s ; %i\n", eq1.c_str(),eq2.c_str(), eq1 != eq2);
+    printf("%s > %s ; %i\n", eq1.c_str(),eq2.c_str(), eq1 > eq2);
+    printf("%s >= %s ; %i\n", eq1.c_str(),eq2.c_str(), eq1 >= eq2);
+    printf("%s < %s ; %i\n", eq1.c_str(),eq2.c_str(), eq1 < eq2);
+    printf("%s <= %s ; %i\n", eq1.c_str(),eq2.c_str(), eq1 <= eq2);
+
+    printf("%s\n", "--------------------------------------------------");
+    StringArray<10> neq1, neq2;
+    neq1 = "A";
+    neq2 = "B";
+    printf("%s == %s ; %i\n", neq1.c_str(),neq2.c_str(), neq1 == neq2);
+    printf("%s != %s ; %i\n", neq1.c_str(),neq2.c_str(), neq1 != neq2);
+    printf("%s > %s ; %i\n" , neq1.c_str(),neq2.c_str(), neq1 > neq2);
+    printf("%s >= %s ; %i\n", neq1.c_str(),neq2.c_str(), neq1 >= neq2);
+    printf("%s < %s ; %i\n" , neq1.c_str(),neq2.c_str(), neq1 < neq2);
+    printf("%s <= %s ; %i\n", neq1.c_str(),neq2.c_str(), neq1 <= neq2);
     return 0;
 }

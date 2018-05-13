@@ -224,14 +224,41 @@ public:
         return *this;
     }
 
+    _Myt& append(const char* data, size_t sz)
+    {
+        auto _end = size() + sz;
+        if(_end > max_size())
+            throw std::length_error("StringArray<N>: addition not fit.");
+        strcat(data_.data(), data);
+
+        return *this;
+    }
+
+    _Myt& append(const char* str)
+    {
+        return append(str, strlen(str));
+    }
+
     template<size_t K>
     _Myt& append(const StringArray<K>& str_arr)
     {
-        auto _end = size() + str_arr.size();
-        if(_end > max_size())
-            throw std::length_error("StringArray<N>: addition not fit.l");
-        strcat(data_.data(), str_arr.data());
-        return *this;
+        return append(str_arr.data(), str_arr.size());
+    }
+
+    _Myt& operator+=(char c)
+    {
+        return append(c,1);
+    }
+
+    _Myt& operator+=(const char* data)
+    {
+        return append(data);
+    }
+
+    template<size_t K>
+    _Myt& operator+=(const StringArray<K>& str_arr)
+    {
+        return append(str_arr);
     }
 
 public:
@@ -260,12 +287,121 @@ StringArray<_Size>::StringArray(const char* str)
             auto sz = std::min(strlen(str), capacity()-1);
             memcpy(data_.data(), str, sz);
             data_.data()[sz] = 0;
-            printf("Copy %i bytes from \"%s\"\n", sz, str);
         }
     else
         {
             data_[0] = 0;
         }
+}
+
+// operators
+
+template <size_t N1, size_t N2>
+bool operator==(const StringArray<N1>& lhs, const StringArray<N1>& rhs)
+{
+    return strcmp(lhs.c_str(), rhs.c_str()) == 0;
+}
+
+template <size_t N1, size_t N2>
+bool operator!=(const StringArray<N1>& lhs, const StringArray<N1>& rhs)
+{
+    return strcmp(lhs.c_str(), rhs.c_str()) != 0;
+}
+
+template <size_t N1, size_t N2>
+bool operator<(const StringArray<N1>& lhs, const StringArray<N1>& rhs)
+{
+    return strcmp(lhs.c_str(), rhs.c_str()) < 0;
+}
+
+template <size_t N1, size_t N2>
+bool operator<=(const StringArray<N1>& lhs, const StringArray<N1>& rhs)
+{
+    return strcmp(lhs.c_str(), rhs.c_str()) <= 0;
+}
+
+template <size_t N1, size_t N2>
+bool operator>(const StringArray<N1>& lhs, const StringArray<N1>& rhs)
+{
+    return strcmp(lhs.c_str(), rhs.c_str()) > 0;
+}
+
+template <size_t N1, size_t N2>
+bool operator>=(const StringArray<N1>& lhs, const StringArray<N1>& rhs)
+{
+    return strcmp(lhs.c_str(), rhs.c_str()) >= 0;
+}
+
+template <size_t N>
+bool operator==(const StringArray<N>& lhs, const StringArray<N>& rhs)
+{
+    return strcmp(lhs.c_str(), rhs.c_str()) == 0;
+}
+
+template <size_t N>
+bool operator!=(const StringArray<N>& lhs, const StringArray<N>& rhs)
+{
+    return strcmp(lhs.c_str(), rhs.c_str()) != 0;
+}
+
+template <size_t N>
+bool operator<(const StringArray<N>& lhs, const StringArray<N>& rhs)
+{
+    return strcmp(lhs.c_str(), rhs.c_str()) < 0;
+}
+
+template <size_t N>
+bool operator<=(const StringArray<N>& lhs, const StringArray<N>& rhs)
+{
+    return strcmp(lhs.c_str(), rhs.c_str()) <= 0;
+}
+
+template <size_t N>
+bool operator>(const StringArray<N>& lhs, const StringArray<N>& rhs)
+{
+    return strcmp(lhs.c_str(), rhs.c_str()) > 0;
+}
+
+template <size_t N>
+bool operator>=(const StringArray<N>& lhs, const StringArray<N>& rhs)
+{
+    return strcmp(lhs.c_str(), rhs.c_str()) >= 0;
+}
+
+template <size_t N>
+bool operator==(const StringArray<N>& lhs, const char* rhs)
+{
+    return strcmp(lhs.c_str(), rhs) == 0;
+}
+
+template <size_t N>
+bool operator!=(const StringArray<N>& lhs, const char* rhs)
+{
+    return strcmp(lhs.c_str(), rhs) != 0;
+}
+
+template <size_t N>
+bool operator<(const StringArray<N>& lhs, const char* rhs)
+{
+    return strcmp(lhs.c_str(), rhs) < 0;
+}
+
+template <size_t N>
+bool operator<=(const StringArray<N>& lhs, const char* rhs)
+{
+    return strcmp(lhs.c_str(), rhs) <= 0;
+}
+
+template <size_t N>
+bool operator>(const StringArray<N>& lhs, const char* rhs)
+{
+    return strcmp(lhs.c_str(), rhs) > 0;
+}
+
+template <size_t N>
+bool operator>=(const StringArray<N>& lhs, const char* rhs)
+{
+    return strcmp(lhs.c_str(), rhs) >= 0;
 }
 
 #endif // STRINGARRAY_HPP
