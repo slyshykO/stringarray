@@ -6,6 +6,18 @@
 #ifndef STRINGARRAY_HPP
 #define STRINGARRAY_HPP
 
+
+#define __TO_STR(X) #X
+#define TO_STR(V) __TO_STR(V)
+
+#define STRINGARRAY_VER_MAJOR 0
+#define STRINGARRAY_VER_MINOR 1
+#define STRINGARRAY_VER_PATCH 0
+#define STRINGARRAY_VER_TWEAK 0
+
+#define STRINGARRAY_VER_STR TO_STR(STRINGARRAY_VER_MAJOR) "." TO_STR(STRINGARRAY_VER_MINOR) "."\
+                            TO_STR(STRINGARRAY_VER_PATCH) "." TO_STR(STRINGARRAY_VER_TWEAK)
+
 #include <array>
 #include <string>
 #include <stdexcept>

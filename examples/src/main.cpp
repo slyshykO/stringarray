@@ -9,6 +9,8 @@
 
 int main()
 {
+    printf("StringArray ver: %s \n", STRINGARRAY_VER_STR);
+
     StringArray<256> hw("Hello world!");
     printf("%s\n", hw.data());
     StringArray<512> arr512("Array 512!");
