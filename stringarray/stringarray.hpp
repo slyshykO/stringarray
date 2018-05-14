@@ -124,6 +124,11 @@ public:
         return std::distance(std::begin(data_), zero_pos);
     }
 
+    size_type length() const
+    {
+        return size();
+    }
+
     size_type max_size() const
     { // return maximum possible length of sequence
         return (_Size - 1);
@@ -208,6 +213,11 @@ public:
     }
 
     const value_type* c_str() const
+    {
+        return data();
+    }
+
+    const value_type* str() const
     {
         return data();
     }
