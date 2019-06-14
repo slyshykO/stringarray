@@ -4,12 +4,27 @@
 *  author  : Slyshyk Oleksiy (alexslyshyk@gmail.com)
 *******************************************************************************/
 
+#include <cstdint>
 #include <cstdio>
 #include <stringarray.hpp>
+
+template <uint32_t N>
+struct TestStruct {
+	char buf[N];
+	TestStruct() { buf[0] = 0; }
+    explicit TestStruct(const char* str) {
+		if (str) {
+			strncpy(buf, str, N - 1);
+			buf[N - 1] = 0;
+		}
+	}
+};
 
 int main()
 {
     printf("StringArray ver: %s \n", STRINGARRAY_VER_STR);
+
+	TestStruct<256> ts("Helllo world!");
 
     StringArray<256> hw("Hello world!");
     printf("%s\n", hw.data());
