@@ -29,16 +29,16 @@ template <size_t _Size>
 class StringArray
 {
 public:
-    typedef StringArray<_Size>     _Myt;
-    typedef char                   value_type;
-    typedef size_t                 size_type;
-    typedef ptrdiff_t              difference_type;
-    typedef value_type*            pointer;
-    typedef const value_type*      const_pointer;
-    typedef value_type&            reference;
-    typedef const value_type&      const_reference;
-    typedef typename pointer       iterator;
-    typedef typename const_pointer const_iterator;
+    typedef StringArray<_Size>           _Myt;
+    typedef char                         value_type;
+    typedef size_t                       size_type;
+    typedef ptrdiff_t                    difference_type;
+    typedef value_type*                  pointer;
+    typedef const value_type*            const_pointer;
+    typedef value_type&                  reference;
+    typedef const value_type&            const_reference;
+    typedef typename _Myt::pointer       iterator;
+    typedef typename _Myt::const_pointer const_iterator;
 
 public:
     void swap(_Myt& _Other)
