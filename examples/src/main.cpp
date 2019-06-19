@@ -10,21 +10,21 @@
 
 template <uint32_t N>
 struct TestStruct {
-	char buf[N];
-	TestStruct() { buf[0] = 0; }
+    char buf[N];
+    TestStruct() { buf[0] = 0; }
     explicit TestStruct(const char* str) {
-		if (str) {
-			strncpy(buf, str, N - 1);
-			buf[N - 1] = 0;
-		}
-	}
+        if (str) {
+            strncpy(buf, str, N - 1);
+            buf[N - 1] = 0;
+        }
+    }
 };
 
 int main()
 {
     printf("StringArray ver: %s \n", STRINGARRAY_VER_STR);
 
-	TestStruct<256> ts("Helllo world!");
+    TestStruct<256> ts("Helllo world!");
 
     StringArray<256> hw("Hello world!");
     printf("%s\n", hw.data());
@@ -61,5 +61,11 @@ int main()
     printf("%s >= %s ; %i\n", neq1.c_str(),neq2.c_str(), neq1 >= neq2);
     printf("%s < %s ; %i\n" , neq1.c_str(),neq2.c_str(), neq1 < neq2);
     printf("%s <= %s ; %i\n", neq1.c_str(),neq2.c_str(), neq1 <= neq2);
+
+    printf("%s\n", "--------------------------------------------------");
+    std::swap(neq1, neq2);
+    printf("%s ,%s \n", neq1.c_str(),neq2.c_str());
+    neq1.swap(neq2);
+    printf("%s ,%s \n", neq1.c_str(),neq2.c_str());
     return 0;
 }
