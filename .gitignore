@@ -24,3 +24,4 @@ install-root/
 *[Rr]elease/
 *[Dd]ebug/
 *.d
+build/
