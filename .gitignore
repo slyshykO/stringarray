@@ -25,3 +25,4 @@ install-root/
 *[Dd]ebug/
 *.d
 build/
+.vscode/

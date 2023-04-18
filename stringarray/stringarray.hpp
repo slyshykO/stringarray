@@ -13,7 +13,7 @@
 #define STRINGARRAY_VER_MAJOR 0
 #define STRINGARRAY_VER_MINOR 2
 #define STRINGARRAY_VER_PATCH 0
-#define STRINGARRAY_VER_TWEAK 0
+#define STRINGARRAY_VER_TWEAK 1
 
 #define STRINGARRAY_VER_STR TO_STR(STRINGARRAY_VER_MAJOR) "." TO_STR(STRINGARRAY_VER_MINOR) "."\
                             TO_STR(STRINGARRAY_VER_PATCH) "." TO_STR(STRINGARRAY_VER_TWEAK)
@@ -24,6 +24,11 @@
 #include <stdexcept>
 
 #include <cstdio>
+
+
+#ifndef STRINGARRAY_THROW_ERROR
+    #define STRINGARRAY_THROW_ERROR(_StR) do{printf("STRARRAY ERR:%s [%i]\n", _StR, __LINE__);}while(0)
+#endif
 
 template <size_t _Size>
 class StringArray
@@ -87,10 +92,13 @@ public:
         for(;zero_pos < _Size; ++zero_pos)
             if(data_[zero_pos] == 0)
                 break;
-        if (zero_pos == _Size)
-            {
-                throw std::logic_error("Can't find terminating NULL in StringArray<N>");
-            }
+        if (zero_pos == _Size) {
+            #ifdef __cpp_exceptions
+            throw std::logic_error("Can't find terminating NULL in StringArray<N>");
+            #else
+            STRINGARRAY_THROW_ERROR("Can't find terminating NULL in StringArray<N>");
+            #endif
+        }
 
         return zero_pos;
     }
@@ -117,25 +125,41 @@ public:
 
     reference at(size_type _Pos)
     { // subscript mutable sequence with checking
-        if (size() <= _Pos)
+        if (size() <= _Pos) {
+            #ifdef __cpp_exceptions
             throw std::range_error("invalid StringArray<N> subscript");
+            #else
+            STRINGARRAY_THROW_ERROR("invalid StringArray<N> subscript");
+            return data_.at(0);
+            #endif
+        }
         return data_.at(_Pos);
     }
 
     const_reference at(size_type _Pos) const
     { // subscript nonmutable sequence with checking
-        if (size() <= _Pos)
+        if (size() <= _Pos) {
+            #ifdef __cpp_exceptions
             throw std::range_error("invalid StringArray<N> subscript");
+            #else
+            STRINGARRAY_THROW_ERROR("invalid StringArray<N> subscript");
+            return data_.at(0);
+            #endif
+        }
         return (data_.at(_Pos));
     }
 
     reference operator[](size_type _Pos)
     { // subscript mutable sequence
 #if _ITERATOR_DEBUG_LEVEL > 1
-        if (size() <= _Pos)
-            {
-                throw std::range_error("invalid StringArray<N> subscript");
-            }
+        if (size() <= _Pos) {
+            #ifdef __cpp_exceptions
+            throw std::range_error("invalid StringArray<N> subscript");
+            #else
+            STRINGARRAY_THROW_ERROR("invalid StringArray<N> subscript");
+            return data_[0];
+            #endif
+        }
 #endif
 
         return data_[_Pos];
@@ -144,10 +168,14 @@ public:
     const_reference operator[](size_type _Pos) const
     { // subscript nonmutable sequence
 #if _ITERATOR_DEBUG_LEVEL > 1
-        if (_Size <= _Pos)
-            {
-                throw std::range_error("invalid StringArray<N> subscript");
-            }
+        if (_Size <= _Pos) {
+            #ifdef __cpp_exceptions
+            throw std::range_error("invalid StringArray<N> subscript");
+            #else
+            STRINGARRAY_THROW_ERROR("invalid StringArray<N> subscript");
+            return data_[0];
+            #endif
+        }
 #endif /* _ITERATOR_DEBUG_LEVEL */
 
         return data_[_Pos];
@@ -200,8 +228,13 @@ public:
     }
     void push_back(char c)
     {
-        if(size() == max_size())
+        if(size() == max_size()) {
+            #ifdef __cpp_exceptions
             throw std::length_error("StringArray<N> already full");
+            #else
+            STRINGARRAY_THROW_ERROR("StringArray<N> already full");
+            #endif
+        }
         data_[size()+1] = 0;
         data_[size()+0] = c;
     }
@@ -209,19 +242,32 @@ public:
     _Myt& append(size_t n, char c)
     {
         auto _end = size()+n;
-        if(_end > max_size())
+        if(_end > max_size()) {
+            #ifdef __cpp_exceptions
             throw std::length_error("StringArray<N>: addition not fit.");
+            #else
+            STRINGARRAY_THROW_ERROR("StringArray<N>: addition not fit.");
+            _end = max_size();
+            #endif
+        }
         data_[_end] = 0;
-        for(size_t i = size(); i < _end; ++i)
+        for(size_t i = size(); i < _end; ++i) {
             data_[i] = c;
+        }
         return *this;
     }
 
     _Myt& append(const char* data, size_t sz)
     {
         auto _end = size() + sz;
-        if(_end > max_size())
+        if(_end > max_size()) {
+            #ifdef __cpp_exceptions
             throw std::length_error("StringArray<N>: addition not fit.");
+            #else
+            STRINGARRAY_THROW_ERROR("StringArray<N>: addition not fit.");
+            sz = sz - (_end - max_size());
+            #endif
+        }
         strncat(data_, data, sz);
 
         return *this;
